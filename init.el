@@ -327,6 +327,7 @@ you should place your code here."
   (global-set-key (kbd "<kana>") 'toggle-input-method)
   (global-set-key (kbd "<S-spc>") 'toggle-input-method)
   (prefer-coding-system 'utf-8)
+  (add-hook 'org-mode-hook #'org-indent-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

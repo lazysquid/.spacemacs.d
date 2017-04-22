@@ -34,9 +34,9 @@
     cc-mode
     disaster
     company
-    company-irony
+    (company-irony :toggle (configuration-layer/package-usedp 'company))
     flycheck
-    flycheck-irony
+    (flycheck-irony :toggle (configuration-layer/package-usedp 'flycheck))
     rtags
     cmake-ide
     irony
@@ -72,6 +72,30 @@ Each entry is either:
 
 
 ;;"This is stolen from spacemacs c-c++ layer"
+;; Company is not owned by this layer
+(defun cpp/post-init-company ()
+  (spacemacs|add-company-hook c-mode-common)
+  (spacemacs|add-company-hook cmake-mode))
+
+
+;;"This is stolen from spacemacs c-c++ layer"
+;; Flycheck is not owned by this layer
+(defun cpp/post-init-flycheck ()
+  (dolist (mode '(c-mode c++-mode))
+    (spacemacs/add-flycheck-hook mode)))
+
+;;"This is stolen from spacemacs c-c++ layer"
+(defun cpp/init-gdb-mi ()
+  (use-package gdb-mi
+    :defer t
+    :init
+    (progn (setq
+            ;; use gdb-many-windows by default when `M-x gdb'
+            gdb-many-windows t
+            ;; Non-nil means display source file containing the main routine at startup
+            gdb-show-main t))))
+
+;;"This is stolen from spacemacs c-c++ layer"
 (defun cpp/init-cc-mode ()
   (use-package cc-mode
     :defer t
@@ -82,6 +106,14 @@ Each entry is either:
     :config
     (progn
       (require 'compile)
+      ;; DONE TAB option
+      (setq-default tab-width 4)
+      ;; DONE Formatting option 
+      (setq-default c-default-style
+            '((c-mode . "bsd")
+              (cc-mode . "bsd")
+              (c++-mode . "bsd")))
+
       (c-toggle-auto-newline 1)
       (spacemacs/set-leader-keys-for-major-mode 'c-mode
         "ga" 'projectile-find-other-file
@@ -89,7 +121,6 @@ Each entry is either:
       (spacemacs/set-leader-keys-for-major-mode 'c++-mode
         "ga" 'projectile-find-other-file
         "gA" 'projectile-find-other-file-other-window))))
-
 
 ;;"This is stolen from spacemacs c-c++ layer"
 (defun cpp/init-disaster ()
@@ -106,51 +137,33 @@ Each entry is either:
 ;;"This is stolen from spacemacs c-c++ layer"
 (defun cpp/init-cmake-mode ()
   (use-package cmake-mode
+    :defer t
     :mode (("CMakeLists\\.txt\\'" . cmake-mode) ("\\.cmake\\'" . cmake-mode))
     :init (push 'company-cmake company-backends-cmake-mode)))
 
-
-;;"This is stolen from spacemacs c-c++ layer"
-(defun cpp/post-init-company ()
-  (spacemacs|add-company-hook c-mode-common)
-  (spacemacs|add-company-hook cmake-mode))
-
-;;"This is stolen from spacemacs c-c++ layer"
-(defun cpp/init-gdb-mi ()
-  (use-package gdb-mi
-    :defer t
-    :init
-    (setq
-     ;; use gdb-many-windows by default when `M-x gdb'
-     gdb-many-windows t
-     ;; Non-nil means display source file containing the main routine at startup
-     gdb-show-main t)))
-
-;;"This is stolen from spacemacs c-c++ layer"
-(defun cpp/post-init-flycheck ()
-  (dolist (mode '(c-mode c++-mode))
-    (spacemacs/add-flycheck-hook mode))
-  )
-
 (defun cpp/init-cmake-ide ()
   (use-package cmake-ide
-    :defer t
-    :after (irony rtags)
-    :config
-    (cmake-ide-setup)))
+    :after rtags
+    :init (add-hook 'c-mode-common-hook 'cmake-ide-setup)))
 
+;; I use rtags only for code navigation
 (defun cpp/init-rtags ()
   (use-package rtags
-    :defer t))
+    :defer t
+    :init
+    (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
+    :config
+    (setq rtags-use-helm t)
+    (rtags-enable-standard-keybindings)))
 
 (defun cpp/init-irony ()
   (use-package irony
-    :init
     :defer t
+    :init
     (progn
       (add-hook 'c++-mode-hook 'irony-mode)
       (add-hook 'c-mode-hook 'irony-mode)
-      (add-hook 'objc-mode-hook 'irony-mode)
+      ;;(add-hook 'objc-mode-hook 'irony-mode)
       (add-hook 'irony-mode-hook
                 (lambda ()
                   (define-key irony-mode-map [remap completion-at-point]
@@ -160,24 +173,27 @@ Each entry is either:
       (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
       (spacemacs|diminish irony-mode " Ⓘ" " I"))))
 
+;; after company loaded run this func
+;; DONE company guard
 (defun cpp/init-company-irony ()
   (use-package company-irony
-    :init
+    :after company
     :defer t
+    :init
     (progn
-      (eval-after-load 'company
-        '(add-to-list 'company-backends 'company-irony))
+      (push 'company-irony company-backends-c-mode-common)
       (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
       (add-hook 'irony-mode-hook 'company-mode))))
 
+;; after flycheck loaded run this func
+;; DONE flycheck guard
 (defun cpp/init-flycheck-irony ()
   (use-package flycheck-irony
-    :init
+    :after flycheck
     :defer t
+    :init
     (progn
-      (eval-after-load 'flycheck
-        '(add-to-list 'flycheck-checkers 'irony))
+      (add-to-list 'flycheck-checkers 'irony) 
       (add-hook 'irony-mode-hook 'flycheck-mode))))
-
 
 ;;; packages.el ends here
