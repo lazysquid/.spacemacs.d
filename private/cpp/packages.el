@@ -153,8 +153,9 @@ Each entry is either:
     :init
     (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
     :config
-    (setq rtags-use-helm t)
-    (rtags-enable-standard-keybindings)))
+    (progn
+      (evil-set-initial-state 'rtags-mode 'insert)
+      (setq rtags-use-helm t))))
 
 (defun cpp/init-irony ()
   (use-package irony
