@@ -1,5 +1,8 @@
 ;;Reference
 ;;https://skebanga.github.io/rtags-with-cmake-in-spacemacs/
+;; TODO keybindings need to be updated using spacemacs convention
+;;http://spacemacs.org/doc/CONVENTIONS.html
+
 (dolist (mode '(c-mode c++-mode))
   (evil-leader/set-key-for-mode mode
     "g ." 'rtags-find-symbol-at-point
