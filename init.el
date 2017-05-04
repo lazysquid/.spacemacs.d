@@ -342,6 +342,11 @@ you should place your code here."
   (global-set-key (kbd "<S-spc>") 'toggle-input-method)
   (prefer-coding-system 'utf-8)
   (add-hook 'org-mode-hook #'org-indent-mode)
+  (spacemacs/declare-prefix "o" "user-prefix")
+  (spacemacs/declare-prefix "b" "bookmark-prefix")
+  (spacemacs/set-leader-keys "obs" 'bookmark-set)
+  (spacemacs/set-leader-keys "obd" 'bookmark-delete)
+  (spacemacs/set-leader-keys "obl" 'bookmark-bmenu-list)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
