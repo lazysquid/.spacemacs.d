@@ -34,7 +34,10 @@
     org-journal
     org-page
     org-ref
+<<<<<<< HEAD
     ;;org-babel
+=======
+>>>>>>> 89b231539156faa293dea4e7daa0a7298f1a962b
     interleave
     )
   "The list of Lisp packages required by the fp-org layer.
@@ -97,7 +100,11 @@ Each entry is either:
 (defun fp-org/init-org-page ()
   (use-package org-page
     :config
+<<<<<<< HEAD
     (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
+=======
+    (setq op/repository-directory (concat fp/dropbox-directory "blog"))
+>>>>>>> 89b231539156faa293dea4e7daa0a7298f1a962b
     (setq op/site-domain "frostedpenguin.github.com")
     (setq op/personal-github-link "http://github.com/frostedpenguin")
     (setq op/personal-google-analytics-id "UA-86199041-1")
@@ -107,22 +114,20 @@ Each entry is either:
     (setq op/category-ignore-list
           '("images"))
     (setq op/category-config-alist
-          '(("wiki"
+          '(("blog" ;; this is the default configuration
+             :show-meta t
+             :show-comment t
+             :uri-generator op/generate-uri
+             :uri-template "/blog/%y/%m/%d/%t/"
+             :sort-by :date     ;; how to sort the posts
+             :category-index t) ;; generate category index or not
+            ("wiki"
              :show-meta t
              :show-comment nil
              :uri-generator op/generate-uri
              :uri-template "/wiki/%t/"
              :sort-by :mod-date
              :category-index t)
-
-            ("blog" ;; this is the default configuration
-             :show-meta t
-             :show-comment nil
-             :uri-generator op/generate-uri
-             :uri-template "/blog/%y/%m/%d/%t/"
-             :sort-by :date     ;; how to sort the posts
-             :category-index t) ;; generate category index or not
-
             ("index"
              :show-meta nil
              :show-comment nil
@@ -130,15 +135,13 @@ Each entry is either:
              :uri-template "/"
              :sort-by :date
              :category-index nil)
-
             ("about"
              :show-meta nil
              :show-comment nil
              :uri-generator op/generate-uri
              :uri-template "/about/"
              :sort-by :date
-             :category-index nil)
-            ))))
+             :category-index nil)))))
 
 
 ;;; packages.el ends here
