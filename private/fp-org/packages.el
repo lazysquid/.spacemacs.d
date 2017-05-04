@@ -34,7 +34,7 @@
     org-journal
     org-page
     org-ref
-    org-babel
+    ;;org-babel
     interleave
     )
   "The list of Lisp packages required by the fp-org layer.
@@ -82,22 +82,22 @@ Each entry is either:
     )
   )
 
-(defun fp-org/init-org-babel()
-  (use-package org-babel
-    :config
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((sh         . t)
-       (emacs-lisp . t)
-       (python     . t)
-       (dot        . t)
-       (C          . t)
-       (plantuml   . t)))))
+;; (defun fp-org/init-org-babel()
+;;   (use-package org-babel
+;;     :config
+;;     (org-babel-do-load-languages
+;;      'org-babel-load-languages
+;;      '((sh         . t)
+;;        (emacs-lisp . t)
+;;        (python     . t)
+;;        (dot        . t)
+;;        (C          . t)
+;;        (plantuml   . t)))))
 
 (defun fp-org/init-org-page ()
   (use-package org-page
     :config
-    (setq op/repository-directory (concat org-directory "blog/"))
+    (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
     (setq op/site-domain "frostedpenguin.github.com")
     (setq op/personal-github-link "http://github.com/frostedpenguin")
     (setq op/personal-google-analytics-id "UA-86199041-1")
