@@ -100,11 +100,7 @@ Each entry is either:
 (defun fp-org/init-org-page ()
   (use-package org-page
     :config
-<<<<<<< HEAD
     (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
-=======
-    (setq op/repository-directory (concat fp/dropbox-directory "blog"))
->>>>>>> 89b231539156faa293dea4e7daa0a7298f1a962b
     (setq op/site-domain "frostedpenguin.github.com")
     (setq op/personal-github-link "http://github.com/frostedpenguin")
     (setq op/personal-google-analytics-id "UA-86199041-1")
