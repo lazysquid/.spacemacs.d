@@ -34,10 +34,7 @@
     org-journal
     org-page
     org-ref
-<<<<<<< HEAD
     ;;org-babel
-=======
->>>>>>> 89b231539156faa293dea4e7daa0a7298f1a962b
     interleave
     )
   "The list of Lisp packages required by the fp-org layer.
