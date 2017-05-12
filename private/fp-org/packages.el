@@ -64,6 +64,8 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
+(defun fp-org/post-init-org ()
+  )
 
 (defun fp-org/init-org-ref()
   (use-package org-ref
