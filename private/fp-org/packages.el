@@ -34,6 +34,7 @@
     org-journal
     org-page
     org-ref
+    (org-wiki :location (recipe :fetcher github :repo "caiorss/org-wiki"))
     interleave
     )
   "The list of Lisp packages required by the fp-org layer.
@@ -77,9 +78,13 @@ Each entry is either:
   )
 
 (defun fp-org/init-org-journal ()
-  (use-package org-journal
-    )
-  )
+  (use-package org-journal))
+
+(defun fp-org/init-org-wiki ()
+  (use-package org-wiki
+    :config
+    (setq org-wiki-location (concat org-directory "wiki/"))))
+
 
 ;; (defun fp-org/init-org-babel()
 ;;   (use-package org-babel
