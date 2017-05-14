@@ -64,6 +64,8 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
+(defun fp-org/post-init-org ()
+  )
 
 (defun fp-org/init-org-ref()
   (use-package org-ref
@@ -101,7 +103,7 @@ Each entry is either:
 (defun fp-org/init-org-page ()
   (use-package org-page
     :config
-    (setq op/repository-directory (concat fp/dropbox-directory "blog"))
+    (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
     (setq op/site-domain "frostedpenguin.github.com")
     (setq op/personal-github-link "http://github.com/frostedpenguin")
     (setq op/personal-google-analytics-id "UA-86199041-1")
