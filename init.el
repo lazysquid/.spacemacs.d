@@ -64,7 +64,7 @@ values."
      (ipython-notebook :variables
                        ein:jupyter-default-server-command "/usr/local/bin/jupyter"
                        ein:jupyter-server-args (list "--no-browser"))
-     cpp
+     ;;cpp
      bibtex
      ;; (ranger :variable
      ;;         ranger-show-preview t)
@@ -324,13 +324,9 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq-default
-   fp/dropbox-directory
-   (cond
-    ((eq system-type 'gnu/linux) "~/Dropbox/")
-    ((eq system-type 'window-nt) "%HOMEPATH%/Dropbox/"))
-   fp/org-directory (concat fp/dropbox-directory "org/")
-   fp/note-directory (concat fp/org-directory "note/"))
+  (setq-default fp/dropbox-directory (expand-file-name "Dropbox" user-home-directory)
+                fp/org-directory (concat fp/dropbox-directory "org/")
+                fp/note-directory (concat fp/org-directory "note/"))
   (setq auth-sources
         '((:source "~/.spacemacs.d/secrets/.authinfo.gpg")))
   )
