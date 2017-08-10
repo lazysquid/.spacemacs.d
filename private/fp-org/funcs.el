@@ -20,6 +20,19 @@
     (interactive)
     (find-file (get-journal-file-yesterday))))
 
+(defun fp/clock-in-to-next (kw))
+
+
+(defun fp/find-project-task ())
+
+(defun fp/punch-in (arg))
+
+(defun fp/punch-out ())
+
+(defun fp/clock-in-default-task ())
+
+(defun fp/clock-in-parent-task ())
+
 ;; options
 ;; (setq org-directory "~/Dropbox/org/")
 ;; (unless (file-exists-p org-directory)
