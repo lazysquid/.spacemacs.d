@@ -5,8 +5,25 @@
 ;;   )
 (with-eval-after-load 'org
   (progn
+    ;; add org-habit
+    (add-to-list 'org-modules 'org-habit)
+
     ;; Clocking from here. http://doc.norang.ca/org-mode.html#Clocking
     (org-clock-persistence-insinuate)
+
+    ;; my custom org-todo-keywords setup
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "|" "DONE(d)")
+            (sequence "PLAN(p)" "|" "FAILED(f)" "DONE(d)") ;; for my daily routin plan
+            (sequence "|" "CANCLED(c)" )))
+
+    ;; set colors for this sequneces
+    (setq org-todo-keyword-faces
+          '(("TODO" . org-todo) ("DONE" . org-done)
+            ("PLAN" . "yellow") ("FAILED" . "royal blue") ("DONE" . org-done)
+            ("CANCLED" . "tomato")))
+
+
 
     (setq org-clock-in-resume t)
     (setq org-clock-out-remove-zero-time-clocks t)
@@ -20,8 +37,16 @@
     (setq org-journal-file-format "%Y%m%d.org")
     (setq org-agenda-files
           (append org-agenda-files
-                  (list (fp/get-journal-file-today)
-                        (expand-file-name "gtd.org" org-directory))))))
+                  (list org-journal-dir
+                        ;;(file-expand-wildcards (concat org-journal-dir "*.org"))
+                        ;;(fp/get-journal-file-today)
+                        (expand-file-name "habit.org" org-directory)
+                        (expand-file-name "todo.org" org-directory)
+                        (expand-file-name "research.org" org-directory)
+                        ;;(expand-file-name "gtd.org" org-directory)
+                        ))))
+  )
+
 
 ;; (if (boundp 'org-agenda-files)
 ;;     (append org-agenda-files

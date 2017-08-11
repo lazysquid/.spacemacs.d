@@ -81,7 +81,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(org-super-agenda-groups)
+   dotspacemacs-additional-packages '(org-super-agenda)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -414,8 +414,6 @@ you should place your code here."
         smtpmail-debug-info t)
   (setq tramp-default-method "ssh")
 
-  (setq org-agenda-files (list "~/Dropbox/org/habit.org" "~/Dropbox/org/todo.org" "~/Dropbox/org/research.org"))
-
   (use-package org-super-agenda
     :ensure t
     :config
@@ -424,7 +422,6 @@ you should place your code here."
           '(
             (:name "Today"
                    :time-grid t
-                   :tag "task"
                    :todo "TODAY")
             (:name "Projects"
                    :tag "project")
@@ -432,34 +429,9 @@ you should place your code here."
                    :auto-group t
                    :tag "research")
             (:name "Habit"
+                   :auto-group t
                    :habit t)))
     )
-  ;; (let ((org-super-agenda-groups
-  ;;        '((:name "Projects"
-  ;;                 :tag "project")
-  ;;          (:name "Research"
-  ;;                 :tag "research"))))
-  ;;   (org-todo-list)
-
-    ;; (let (org-super-agenda-groups
-    ;;       '((:name "Today"
-    ;;                :time-grid t
-    ;;                :todo "TODAY")
-    ;;         ;; (:name "Project"
-    ;;         ;;        :tag "project")
-    ;;         ;; (:name "Research"
-    ;;         ;;        :auto-group t
-    ;;         ;;        :tag "research")
-    ;;         (:name "Personal"
-    ;;                :tag "personal")
-    ;;         (:name "Habit"
-    ;;                :habit t)
-    ;;         ))
-    ;;   (org-todo-list)
-    ;;   )
-  ;;(require 'org-habit)
-  (add-to-list 'org-modules 'org-habit)
-  (setq org-habit-graph-column 50)
 
   )
 
