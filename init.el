@@ -330,6 +330,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq exec-path-from-shell-check-startup-files nil)
   (setq-default
    fp/dropbox-directory
    (cond
@@ -372,6 +373,10 @@ you should place your code here."
   (spacemacs/set-leader-keys "ojn" 'org-journal-new-entry)
   (spacemacs/set-leader-keys "ojs" 'org-journal-search)
   (spacemacs/set-leader-keys "ojv" 'fp/view-journal)
+
+  ;; override minor mode keybinding of deft mode (new note + rename, default was just make new note only)
+  (spacemacs/set-leader-keys-for-minor-mode 'deft-mode "n" 'deft-new-file-named)
+
 
 
 
