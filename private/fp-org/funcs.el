@@ -20,7 +20,3 @@
     (interactive)
     (find-file (get-journal-file-yesterday))))
 
-;; options
-;; (setq org-directory "~/Dropbox/org/")
-;; (unless (file-exists-p org-directory)
-;;   (make-directory org-directory))       ;

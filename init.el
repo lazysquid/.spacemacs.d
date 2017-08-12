@@ -32,6 +32,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -53,9 +54,8 @@ values."
      csv
      shaders
      (latex :variables
-            TeX-master nil
-            latex-build-command "LaTex"
-            TeX-engine 'xetex)
+            latex-build-command "xelatex"
+            )
      themes-megapack
      emacs-lisp
      ranger
@@ -74,17 +74,14 @@ values."
      fp-org
      (deft :variables
        deft-directory fp/note-directory)
-     ;; version-control
+     ;;version-control
      (mu4e :variables mu4e-account-alist t)
-     typescript
-     javascript
-     html
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(all-the-icons)
+   dotspacemacs-additional-packages '(all-the-icons org-super-agenda)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -331,9 +328,13 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq-default fp/dropbox-directory (expand-file-name "Dropbox" user-home-directory)
-                fp/org-directory (expand-file-name "org" fp/dropbox-directory)
-                fp/note-directory (expand-file-name "note" fp/org-directory))
+  (setq-default
+   fp/dropbox-directory
+   (cond
+    ((eq system-type 'gnu/linux) "~/Dropbox/")
+    ((eq system-type 'window-nt) "%HOMEPATH%/Dropbox/"))
+   fp/org-directory (concat fp/dropbox-directory "org/")
+   fp/note-directory (concat fp/org-directory "note/"))
   (setq auth-sources
         '((:source "~/.spacemacs.d/secrets/.authinfo.gpg")))
   )
@@ -356,11 +357,10 @@ you should place your code here."
   (prefer-coding-system 'utf-8)
   (add-hook 'org-mode-hook #'org-indent-mode)
   (spacemacs/declare-prefix "o" "user-prefix")
-  (spacemacs/declare-prefix "b" "bookmark-prefix")
+  (spacemacs/declare-prefix "ob" "bookmark-prefix")
   (spacemacs/set-leader-keys "obs" 'bookmark-set)
   (spacemacs/set-leader-keys "obd" 'bookmark-delete)
   (spacemacs/set-leader-keys "obl" 'bookmark-bmenu-list)
-
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -369,6 +369,7 @@ you should place your code here."
      (org . t)
      (python . t)
      (sh . t)))
+
   
   (setq mu4e-maildir "~/.mail"
         mu4e-drafts-folder "/[Gmail].Drafts"
@@ -378,10 +379,6 @@ you should place your code here."
         mu4e-compose-signature-auto-include nil
         mu4e-view-show-images t
         mu4e-view-show-addresses t)
-
-  ;; Latex
-  ;; (setq TeX-engine 'xetex)
-  ;; (setq latex-run-command "xelatex")
 
   ;; Mail directory shortcuts
   (setq mu4e-maildir-shortcuts
@@ -398,6 +395,7 @@ you should place your code here."
            (smtpmail-smtp-service 587)
            (smtpmail-auth-credentials (expand-file-name "~/.spacemacs.d/secrets/.authinfo.gpg"))
            (smtpmail-stream-type starttls)
+           
            )
           ))
 
@@ -413,8 +411,31 @@ you should place your code here."
         smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587
         smtpmail-debug-info t)
+  (setq tramp-default-method "ssh")
+
+  (use-package org-super-agenda
+    :ensure t
+    :config
+    (org-super-agenda-mode)
+    (setq org-super-agenda-groups
+          '(
+            (:name "Today"
+                   :time-grid t
+                   :todo "TODAY")
+            (:name "Projects"
+                   :tag "project")
+            (:name "Research"
+                   :auto-group t
+                   :tag "research")
+            (:name "Habit"
+                   :auto-group t
+                   :habit t)))
+    )
+
+
   (setq neo-theme 'icons)
   )
+
 
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -424,13 +445,53 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-    ("f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" default)))
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-color "#3C3D37" t)
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#3C3D37" . 0)
+     ("#679A01" . 20)
+     ("#4BBEAE" . 30)
+     ("#1DB4D0" . 50)
+     ("#9A8F21" . 60)
+     ("#A75B00" . 70)
+     ("#F309DF" . 85)
+     ("#3C3D37" . 100))))
+ '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (all-the-icons memoize font-lock+ web-mode web-beautify tide typescript-mode tagedit slim-mode scss-mode sass-mode pug-mode livid-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc helm-css-scss haml-mode emmet-mode company-web web-completion-data company-tern dash-functional tern coffee-mode org-wiki pdf-tools tablist skewer-mode deferred js2-mode mu4e-maildirs-extension mu4e-alert vmd-mode protobuf-mode deft org-page git mustache simple-httpd ht org-journal interleave org-ref key-chord ivy helm-bibtex parsebib flyspell-correct-helm flyspell-correct biblio biblio-core auto-dictionary rtags cmake-ide levenshtein flycheck-irony company-irony irony company-quickhelp xterm-color shell-pop ranger multi-term flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help ein websocket zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc glsl-mode disaster cython-mode csv-mode company-c-headers company-auctex company-anaconda cmake-mode clang-format auctex-latexmk auctex anaconda-mode pythonic cal-korea-x smeargle orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(safe-local-variable-values (quote ((TeX-command-extra-options . "-shell-escape")))))
+    (org-wiki org-super-agenda pdf-tools tablist org-category-capture skewer-mode request-deferred deferred js2-mode helm-firefox web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data mu4e-maildirs-extension mu4e-alert vmd-mode protobuf-mode deft org-page git mustache simple-httpd ht org-journal interleave org-ref key-chord ivy helm-bibtex parsebib flyspell-correct-helm flyspell-correct biblio biblio-core auto-dictionary rtags cmake-ide levenshtein flycheck-irony company-irony irony company-quickhelp xterm-color shell-pop ranger multi-term flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help ein websocket zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc glsl-mode disaster cython-mode csv-mode company-c-headers company-auctex company-anaconda cmake-mode clang-format auctex-latexmk auctex anaconda-mode pythonic cal-korea-x smeargle orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(pos-tip-background-color "#A6E22E")
+ '(pos-tip-foreground-color "#272822")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
