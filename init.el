@@ -365,6 +365,15 @@ you should place your code here."
   (spacemacs/set-leader-keys "obl" 'bookmark-bmenu-list)
   (spacemacs/set-leader-keys "ow" 'writeroom-mode)
 
+  ;;(spacemacs/set-leader-keys "oj" 'org-journal-new-entry)
+  (spacemacs/declare-prefix "oj" "org-journal-prefix")
+  (spacemacs/set-leader-keys "ojf" 'org-journal-open-next-entry)
+  (spacemacs/set-leader-keys "ojb" 'org-journal-open-previous-entry)
+  (spacemacs/set-leader-keys "ojn" 'org-journal-new-entry)
+  (spacemacs/set-leader-keys "ojs" 'org-journal-search)
+  (spacemacs/set-leader-keys "ojv" 'fp/view-journal)
+
+
 
   (org-babel-do-load-languages
    'org-babel-load-languages

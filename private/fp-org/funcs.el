@@ -1,4 +1,9 @@
 (when (configuration-layer/package-usedp 'org-journal)
+  (defun fp/view-journal ()
+    "Just go to today's journal and do nothing"
+    (interactive)
+    (org-journal-new-entry t nil))
+
   (defun fp/get-journal-file-today ()
     "Return filename for today's journal entry."
     (let ((daily-name (format-time-string "%Y%m%d.org")))
