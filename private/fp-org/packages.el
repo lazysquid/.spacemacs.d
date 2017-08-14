@@ -33,7 +33,6 @@
   '(
     org-journal
     org-page
-    org-ref
     (org-wiki :location (recipe :fetcher github :repo "caiorss/org-wiki"))
     interleave
     )
@@ -67,13 +66,6 @@ Each entry is either:
 (defun fp-org/post-init-org ()
   )
 
-(defun fp-org/init-org-ref()
-  (use-package org-ref
-    :config
-    (setq
-     org-ref-bibliography-notes (concat org-directory "research-note/research.org")
-     org-ref-default-bibliography (concat org-directory "research-note/ref.bib")
-     org-ref-pdf-directory (concat org-directory "research-note/pdf"))))
 
 (defun fp-org/init-interleave ()
   (use-package interleave)
