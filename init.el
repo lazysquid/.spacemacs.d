@@ -32,6 +32,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     mu4e
      typescript
      javascript
      html
@@ -390,47 +391,47 @@ you should place your code here."
      (sh . t)))
 
   
-  (setq mu4e-maildir "~/.mail"
-        mu4e-drafts-folder "/[Gmail].Drafts"
-        mu4e-sent-folder "/[Gmail].Sent Mail"
-        mu4e-trash-folder "/[Gmail].Trash"
-        mu4e-update-interval nil
-        mu4e-compose-signature-auto-include nil
-        mu4e-view-show-images t
-        mu4e-view-show-addresses t)
+  ;; (setq mu4e-maildir "~/.mail"
+  ;;       mu4e-drafts-folder "/[Gmail].Drafts"
+  ;;       mu4e-sent-folder "/[Gmail].Sent Mail"
+  ;;       mu4e-trash-folder "/[Gmail].Trash"
+  ;;       mu4e-update-interval nil
+  ;;       mu4e-compose-signature-auto-include nil
+  ;;       mu4e-view-show-images t
+  ;;       mu4e-view-show-addresses t)
 
-  ;; Mail directory shortcuts
-  (setq mu4e-maildir-shortcuts
-        '(("/INBOX" . ?g)))
+  ;; ;; Mail directory shortcuts
+  ;; (setq mu4e-maildir-shortcuts
+  ;;       '(("/INBOX" . ?g)))
 
-  (setq mu4e-get-mail-command "offlineimap")
-  (setq mu4e-account-alist
-        '(("gmail"
-           (mu4e-sent-messages-behavior delete)
-           (user-mail-address "fpenguin23@gmail.com")
-           (user-full-name "Wonjun Lee")
-           (smtpmail-default-smtp-server "smtp.gmail.com")
-           (smtpmail-smtp-server "smtp.gmail.com")
-           (smtpmail-smtp-service 587)
-           (smtpmail-auth-credentials (expand-file-name "~/.spacemacs.d/secrets/.authinfo.gpg"))
-           (smtpmail-stream-type starttls)
+  ;; (setq mu4e-get-mail-command "offlineimap")
+  ;; (setq mu4e-account-alist
+  ;;       '(("gmail"
+  ;;          (mu4e-sent-messages-behavior delete)
+  ;;          (user-mail-address "fpenguin23@gmail.com")
+  ;;          (user-full-name "Wonjun Lee")
+  ;;          (smtpmail-default-smtp-server "smtp.gmail.com")
+  ;;          (smtpmail-smtp-server "smtp.gmail.com")
+  ;;          (smtpmail-smtp-service 587)
+  ;;          (smtpmail-auth-credentials (expand-file-name "~/.spacemacs.d/secrets/.authinfo.gpg"))
+  ;;          (smtpmail-stream-type starttls)
            
-           )
-          ))
+  ;;          )
+  ;;         ))
 
-  (mu4e/mail-account-reset)
+  ;; (mu4e/mail-account-reset)
 
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-starttls-credentials
-        '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials
-        (expand-file-name "~/.spacemacs.d/secrets/.authinfo.gpg")
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-debug-info t)
-  (setq tramp-default-method "ssh")
+  ;; (setq message-send-mail-function 'smtpmail-send-it
+  ;;       starttls-use-gnutls t
+  ;;       smtpmail-starttls-credentials
+  ;;       '(("smtp.gmail.com" 587 nil nil))
+  ;;       smtpmail-auth-credentials
+  ;;       (expand-file-name "~/.spacemacs.d/secrets/.authinfo.gpg")
+  ;;       smtpmail-default-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-service 587
+  ;;       smtpmail-debug-info t)
+  ;; (setq tramp-default-method "ssh")
 
   (use-package org-super-agenda
     :ensure t
