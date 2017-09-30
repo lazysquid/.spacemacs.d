@@ -57,7 +57,7 @@ values."
      csv
      shaders
      (latex :variables
-            latex-build-command "xelatex"
+            ;;latex-build-command "xelatex"
             )
      ;;themes-megapack
      emacs-lisp
@@ -75,16 +75,15 @@ values."
              org-ref-default-bibliography '("~/Dropbox/Papers/references.bib")
              org-ref-pdf-directory "~/Dropbox/Papers/"
              org-ref-bibliography-notes "~/Dropbox/org/note/paper_notes.org"
-             org-ref-open-pdf-function
-             (lambda (fpath)
-               (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath)))
+             org-ref-open-pdf-function (lambda (fpath) (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath)))
 
      ;; (ranger :variable
      ;;         ranger-show-preview t)
-     fp-org
+     ;;fp-org
      (deft :variables
        deft-directory fp/note-directory)
      ;;version-control
+
      (mu4e :variables mu4e-account-alist t)
      )
    ;; List of additional packages that will be installed without being
@@ -339,6 +338,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
   (setq exec-path-from-shell-check-startup-files nil)
   (setq-default
    fp/dropbox-directory
@@ -358,10 +358,37 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; (require 'epa-file)
-  ;; (epa-file-enable)
-  ;; (setq epg-gpg-program "gpg")
-  ;; (setq epa-file-select-keys t)
+
+
+  ;; Org-ref related configs
+  (defun my/org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point if it exists."
+    (interactive)
+    (save-excursion
+      (bibtex-beginning-of-entry)
+      (let* ((bibtex-expand-strings t)
+             (entry (bibtex-parse-entry t))
+             (key (reftex-get-bib-field "=key=" entry))
+             (pdf (funcall org-ref-get-pdf-filename-function key)))
+        (if (file-exists-p pdf)
+            (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" pdf)
+          (ding)))))
+  (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+
+
+  ;; Auctex related configs
+  (setq TeX-source-correlate-start-server t)
+  (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
+          ("Skim" "displayline -b -g %n %o %b")
+          ("Zathura"
+           ("zathura %o"
+            (mode-io-correlate
+             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
+
+  ;;(require 'helm-bookmark)
+
   (set-language-environment "Korean")
   (set-fontset-font t 'hangul (font-spec :name "NanumGothic"))
   (global-set-key (kbd "<kana>") 'toggle-input-method)
@@ -388,6 +415,7 @@ you should place your code here."
 
 
 
+  ;;(require 'org-ref)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
