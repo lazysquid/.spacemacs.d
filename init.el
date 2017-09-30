@@ -59,7 +59,7 @@ values."
      (latex :variables
             ;;latex-build-command "xelatex"
             )
-     ;;themes-megapack
+
      emacs-lisp
      ranger
      (shell :variables
@@ -377,15 +377,6 @@ you should place your code here."
 
 
   ;; Auctex related configs
-  (setq TeX-source-correlate-start-server t)
-  (setq TeX-source-correlate-method 'synctex)
-  (setq TeX-view-program-list
-        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
-          ("Skim" "displayline -b -g %n %o %b")
-          ("Zathura"
-           ("zathura %o"
-            (mode-io-correlate
-             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
 
   ;;(require 'helm-bookmark)
 
