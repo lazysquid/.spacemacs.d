@@ -57,7 +57,10 @@ values."
      csv
      shaders
      (latex :variables
-            latex-build-command "xelatex"
+            latex-build-command "LaTeX" ;; This should be one of the commands when I press C-c C-c in auct
+            TeX-command-default "xelatex"
+            TeX-engine 'xetex
+            TeX-master nil ;; I want auctex query me that where is master file.
             )
      ;;themes-megapack
      emacs-lisp
@@ -342,6 +345,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
    fp/note-directory (concat fp/org-directory "note/"))
   (setq auth-sources
         '((:source "~/.spacemacs.d/secrets/.authinfo.gpg")))
+  (require 'helm-bookmark)
   )
 
 (defun dotspacemacs/user-config ()
@@ -351,6 +355,42 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+
+  ;; Latex mode save hook. Whenever I save *.tex file, emacs will automatically compile the tex file. 
+  ;; (add-hook 'after-save-hook
+  ;;           (lambda ()
+  ;;             (when (string= major-mode 'latex-mode)
+  ;;               (TeX-run-latexmk
+  ;;                "LaTeX"
+  ;;                (format "latexmk -xelatex %s" (buffer-file-name))
+  ;;                (file-name-base (buffer-file-name)))))))
+  (setq TeX-source-correlate-mode t)
+  (setq TeX-source-correlate-start-server t)
+  (setq TeX-source-correlate-method 'synctex)
+  ;; AucTex recognizes some standard viewers, but the default view command
+  ;; does not appear to sync.
+  ;; (setq TeX-view-program-list
+  ;;       '("Zathura" "zathura " (mode-io-correlate "--synctex-forward %n:1:%b") " %o"))
+  
+
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
+          ("Skim" "displayline -b -g %n %o %b")
+          ("Zathura"
+           ("zathura %o"
+            (mode-io-correlate
+             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
+  (setq TeX-view-program-selection
+        '(((output-dvi has-no-display-manager)
+           "dvi2tty")
+          ((output-dvi style-pstricks)
+           "dvips and gv")
+          (output-dvi "xdvi")
+          (output-pdf "Zathura")
+          (output-html "xdg-open")))
+
+
   ;; (require 'epa-file)
   ;; (epa-file-enable)
   ;; (setq epg-gpg-program "gpg")
