@@ -32,8 +32,8 @@
 (defconst fp-org-packages
   '(
     org-journal
-    org-page
-    (org-wiki :location (recipe :fetcher github :repo "caiorss/org-wiki"))
+    ;;org-page
+    ;;(org-wiki :location (recipe :fetcher github :repo "caiorss/org-wiki"))
     interleave
     )
   "The list of Lisp packages required by the fp-org layer.
@@ -92,47 +92,47 @@ Each entry is either:
 ;;        (C          . t)
 ;;        (plantuml   . t)))))
 
-(defun fp-org/init-org-page ()
-  (use-package org-page
-    :config
-    (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
-    (setq op/site-domain "frostedpenguin.github.com")
-    (setq op/personal-github-link "http://github.com/frostedpenguin")
-    (setq op/personal-google-analytics-id "UA-86199041-1")
-    (setq op/personal-avatar "https://avatars2.githubusercontent.com/u/6973543?v=3&s=466")
-    (setq op/site-main-title "Span {thought}")
-    (setq op/site-sub-title "Set of my orthogonal thoughts")
-    (setq op/category-ignore-list
-          '("images"))
-    (setq op/category-config-alist
-          '(("blog" ;; this is the default configuration
-             :show-meta t
-             :show-comment t
-             :uri-generator op/generate-uri
-             :uri-template "/blog/%y/%m/%d/%t/"
-             :sort-by :date     ;; how to sort the posts
-             :category-index t) ;; generate category index or not
-            ("wiki"
-             :show-meta t
-             :show-comment nil
-             :uri-generator op/generate-uri
-             :uri-template "/wiki/%t/"
-             :sort-by :mod-date
-             :category-index t)
-            ("index"
-             :show-meta nil
-             :show-comment nil
-             :uri-generator op/generate-uri
-             :uri-template "/"
-             :sort-by :date
-             :category-index nil)
-            ("about"
-             :show-meta nil
-             :show-comment nil
-             :uri-generator op/generate-uri
-             :uri-template "/about/"
-             :sort-by :date
-             :category-index nil)))))
+;; (defun fp-org/init-org-page ()
+;;   (use-package org-page
+;;     :config
+;;     (setq op/repository-directory (concat fp/dropbox-directory "blog/"))
+;;     (setq op/site-domain "frostedpenguin.github.com")
+;;     (setq op/personal-github-link "http://github.com/frostedpenguin")
+;;     (setq op/personal-google-analytics-id "UA-86199041-1")
+;;     (setq op/personal-avatar "https://avatars2.githubusercontent.com/u/6973543?v=3&s=466")
+;;     (setq op/site-main-title "Span {thought}")
+;;     (setq op/site-sub-title "Set of my orthogonal thoughts")
+;;     (setq op/category-ignore-list
+;;           '("images"))
+;;     (setq op/category-config-alist
+;;           '(("blog" ;; this is the default configuration
+;;              :show-meta t
+;;              :show-comment t
+;;              :uri-generator op/generate-uri
+;;              :uri-template "/blog/%y/%m/%d/%t/"
+;;              :sort-by :date     ;; how to sort the posts
+;;              :category-index t) ;; generate category index or not
+;;             ("wiki"
+;;              :show-meta t
+;;              :show-comment nil
+;;              :uri-generator op/generate-uri
+;;              :uri-template "/wiki/%t/"
+;;              :sort-by :mod-date
+;;              :category-index t)
+;;             ("index"
+;;              :show-meta nil
+;;              :show-comment nil
+;;              :uri-generator op/generate-uri
+;;              :uri-template "/"
+;;              :sort-by :date
+;;              :category-index nil)
+;;             ("about"
+;;              :show-meta nil
+;;              :show-comment nil
+;;              :uri-generator op/generate-uri
+;;              :uri-template "/about/"
+;;              :sort-by :date
+;;              :category-index nil)))))
 
 
 ;;; packages.el ends here

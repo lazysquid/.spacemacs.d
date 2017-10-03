@@ -377,6 +377,13 @@ you should place your code here."
 
 
   ;; Auctex related configs
+  (setq TeX-source-correlate-start-server t)
+  (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-view-program-list
+        '(("Zathura"
+           ("zathura %o"
+            (mode-io-correlate
+             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
 
   ;;(require 'helm-bookmark)
 
