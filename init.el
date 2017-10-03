@@ -352,7 +352,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
    fp/note-directory (concat fp/org-directory "note/"))
   (setq auth-sources
         '((:source "~/.spacemacs.d/secrets/.authinfo.gpg")))
-  (require 'helm-bookmark)
   )
 
 (defun dotspacemacs/user-config ()
@@ -364,6 +363,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
 
+  (require 'helm-bookmark)
   ;; Org-ref related configs
   (defun my/org-ref-open-pdf-at-point ()
     "Open the pdf for bibtex key under point if it exists."
