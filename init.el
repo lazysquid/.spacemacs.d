@@ -62,7 +62,7 @@ values."
             TeX-engine 'xetex
             TeX-master nil ;; I want auctex query me that where is master file.
             )
-     ;;themes-megapack
+
      emacs-lisp
      ranger
      (shell :variables
@@ -74,13 +74,19 @@ values."
                        ein:jupyter-default-server-command "/usr/local/bin/jupyter"
                        ein:jupyter-server-args (list "--no-browser"))
      cpp
-     bibtex
+     (bibtex :variables
+             org-ref-default-bibliography '("~/Dropbox/Papers/references.bib")
+             org-ref-pdf-directory "~/Dropbox/Papers/"
+             org-ref-bibliography-notes "~/Dropbox/org/note/paper_notes.org"
+             org-ref-open-pdf-function (lambda (fpath) (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath)))
+
      ;; (ranger :variable
      ;;         ranger-show-preview t)
-     fp-org
+     ;;fp-org
      (deft :variables
        deft-directory fp/note-directory)
      ;;version-control
+
      (mu4e :variables mu4e-account-alist t)
      )
    ;; List of additional packages that will be installed without being
@@ -91,7 +97,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(org-projectile)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -335,6 +341,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
   (setq exec-path-from-shell-check-startup-files nil)
   (setq-default
    fp/dropbox-directory
@@ -357,15 +364,23 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
 
-  ;; Latex mode save hook. Whenever I save *.tex file, emacs will automatically compile the tex file. 
-  ;; (add-hook 'after-save-hook
-  ;;           (lambda ()
-  ;;             (when (string= major-mode 'latex-mode)
-  ;;               (TeX-run-latexmk
-  ;;                "LaTeX"
-  ;;                (format "latexmk -xelatex %s" (buffer-file-name))
-  ;;                (file-name-base (buffer-file-name)))))))
-  (setq TeX-source-correlate-mode t)
+  ;; Org-ref related configs
+  (defun my/org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point if it exists."
+    (interactive)
+    (save-excursion
+      (bibtex-beginning-of-entry)
+      (let* ((bibtex-expand-strings t)
+             (entry (bibtex-parse-entry t))
+             (key (reftex-get-bib-field "=key=" entry))
+             (pdf (funcall org-ref-get-pdf-filename-function key)))
+        (if (file-exists-p pdf)
+            (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" pdf)
+          (ding)))))
+  (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+
+
+  ;; Auctex related configs
   (setq TeX-source-correlate-start-server t)
   (setq TeX-source-correlate-method 'synctex)
   ;; AucTex recognizes some standard viewers, but the default view command
@@ -422,6 +437,7 @@ you should place your code here."
 
 ;;  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
+  ;;(require 'org-ref)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -430,7 +446,7 @@ you should place your code here."
      (latex . t)
      (org . t)
      (python . t)
-     (sh . t)))
+     (shell . t)))
 
   
   ;; (setq mu4e-maildir "~/.mail"

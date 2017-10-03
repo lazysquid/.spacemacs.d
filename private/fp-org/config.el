@@ -33,7 +33,7 @@
     (setq org-clock-report-include-clocking-task t)
 
     (setq org-journal-date-format "%x, %A")
-    (setq org-journal-dir (concat org-directory "journals/"))
+    (setq org-journal-dir (concat org-directory "/journals/"))
     (setq org-journal-file-format "%Y%m%d.org")
     (setq org-agenda-files
           (append org-agenda-files
