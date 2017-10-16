@@ -358,6 +358,7 @@ you should place your code here."
 
   (require 'helm-bookmark)
 
+  (require 'helm-bookmark)
   ;; Org-ref related configs
   (defun my/org-ref-open-pdf-at-point ()
     "Open the pdf for bibtex key under point if it exists."
