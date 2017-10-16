@@ -352,6 +352,15 @@ It is mostly for varibles that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 
+  ;; Define personal directories for special usage
+  (setq-default
+   fp/dropbox-directory
+   (cond
+    ((eq system-type 'gnu/linux) "~/Dropbox/")
+    ((eq system-type 'window-nt) "%HOMEPATH%/Dropbox/"))
+   fp/org-directory (concat fp/dropbox-directory "org/") ;; my org mode directory
+   fp/note-directory (concat fp/org-directory "note/"))  ;; my note directory
+
   )
 
 (defun dotspacemacs/user-config ()
