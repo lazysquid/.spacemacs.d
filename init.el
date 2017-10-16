@@ -43,13 +43,15 @@ This function should only modify configuration layer settings."
      neotree
      org
      git
+     ranger
+     c-c++
+     python
      (latex :variables
             latex-build-command "LaTeX" ;; This should be one of the commands when I press C-c C-c in auct
             TeX-command-default "xelatex"
             TeX-engine 'xetex
             TeX-master nil ;; I want auctex query me that where is master file.
             )
-     ranger
      (bibtex :variables
              org-ref-default-bibliography '("~/Dropbox/Papers/references.bib")
              org-ref-pdf-directory "~/Dropbox/Papers/"
@@ -360,7 +362,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ((eq system-type 'window-nt) "%HOMEPATH%/Dropbox/"))
    fp/org-directory (concat fp/dropbox-directory "org/") ;; my org mode directory
    fp/note-directory (concat fp/org-directory "note/"))  ;; my note directory
-
   )
 
 (defun dotspacemacs/user-config ()
@@ -369,6 +370,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; Insert tab instead of indent!
+  (setq tab-always-indent nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -385,7 +389,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (material-theme gitignore-mode magit magit-popup git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl browse-at-remote symon string-inflection password-generator helm-purpose window-purpose imenu-list evil-lion editorconfig yapfify xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package toc-org spaceline smeargle shell-pop restart-emacs ranger rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox orgit org-super-agenda org-ref org-present org-pomodoro org-download org-bullets open-junk-file neotree multi-term mu4e-maildirs-extension mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav ein dumb-jump dracula-theme deft define-word cython-mode company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile all-the-icons aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (realgud test-simple loc-changes load-relative disaster cmake-mode cmake-ide levenshtein clang-format pdf-tools key-chord ivy tablist org-projectile org-category-capture alert log4e gntp org-brain markdown-mode helm-bibtex parsebib evil-org biblio biblio-core auctex material-theme gitignore-mode magit magit-popup git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl browse-at-remote symon string-inflection password-generator helm-purpose window-purpose imenu-list evil-lion editorconfig yapfify xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package toc-org spaceline smeargle shell-pop restart-emacs ranger rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox orgit org-super-agenda org-ref org-present org-pomodoro org-download org-bullets open-junk-file neotree multi-term mu4e-maildirs-extension mu4e-alert move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav ein dumb-jump dracula-theme deft define-word cython-mode company-statistics company-quickhelp company-auctex company-anaconda column-enforce-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile all-the-icons aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
