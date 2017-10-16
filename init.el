@@ -36,19 +36,30 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
-     ;; better-defaults
+     ;;auto-completion
+     ;;syntax-checking
      emacs-lisp
-     ;; git
-     ;; markdown
+     markdown
      neotree
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; spell-checking
-     ;; syntax-checking
+     org
      git
+     (latex :variables
+            latex-build-command "LaTeX" ;; This should be one of the commands when I press C-c C-c in auct
+            TeX-command-default "xelatex"
+            TeX-engine 'xetex
+            TeX-master nil ;; I want auctex query me that where is master file.
+            )
+     ranger
+     (bibtex :variables
+             org-ref-default-bibliography '("~/Dropbox/Papers/references.bib")
+             org-ref-pdf-directory "~/Dropbox/Papers/"
+             org-ref-bibliography-notes "~/Dropbox/org/note/paper_notes.org"
+             org-ref-open-pdf-function (lambda (fpath) (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath)))
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
+     (org :variables
+          org-directory (concat fp/dropbox-directory "org/"))
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -339,6 +350,8 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for varibles that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+
+
   )
 
 (defun dotspacemacs/user-config ()
