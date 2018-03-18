@@ -139,8 +139,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(dracula
-                         doom-themes
+   dotspacemacs-themes '(doom-one
+                         dracula
                          spacemacs-dark
                          spacemacs-light)
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
@@ -381,6 +381,9 @@ before packages are loaded."
   (global-set-key (kbd "<kana>") 'toggle-input-method)
   (global-set-key (kbd "<S-spc>") 'toggle-input-method)
   (prefer-coding-system 'utf-8)
+
+  ;; Enable org mode config of doom themes
+  (doom-themes-org-config)
 
   )
 
