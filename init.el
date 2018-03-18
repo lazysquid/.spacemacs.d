@@ -67,7 +67,7 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(doom-themes)
+   dotspacemacs-additional-packages '(doom-themes all-the-icons)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -354,6 +354,10 @@ configuration.
 It is mostly for varibles that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; Enable additional features of doom themes
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
 
   ;; Define personal directories for special usage
   (setq-default
@@ -382,8 +386,12 @@ before packages are loaded."
   (global-set-key (kbd "<S-spc>") 'toggle-input-method)
   (prefer-coding-system 'utf-8)
 
-  ;; Enable org mode config of doom themes
+  ;; Enable doom theme's special features
   (doom-themes-org-config)
+
+  ;; Enable custom neotree theme
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+
 
   )
 
