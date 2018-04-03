@@ -36,8 +36,8 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;;auto-completion
-     ;;syntax-checking
+     auto-completion
+     syntax-checking
      emacs-lisp
      markdown
      neotree
@@ -45,6 +45,7 @@ This function should only modify configuration layer settings."
      git
      ranger
      c-c++
+     (cmake :variables cmake-enable-cmake-ide-support t)
      python
      (latex :variables
             latex-build-command "LaTeX" ;; This should be one of the commands when I press C-c C-c in auct
