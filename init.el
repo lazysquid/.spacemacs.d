@@ -53,10 +53,11 @@ This function should only modify configuration layer settings."
             TeX-master nil ;; I want auctex query me that where is master file.
             )
      (bibtex :variables
-             org-ref-default-bibliography '("~/Dropbox/Papers/references.bib")
-             org-ref-pdf-directory "~/Dropbox/Papers/"
-             org-ref-bibliography-notes "~/Dropbox/org/note/paper_notes.org"
-             org-ref-open-pdf-function (lambda (fpath) (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath)))
+             bibtex-completion-bibliography (concat fp/org-directory "references.bib")
+             bibtex-completion-library-path (concat fp/org-directory "bibtex-pdfs")
+             org-ref-pdf-directory (concat fp/org-directory "bibtex-pdfs/")
+             org-ref-bibliography-notes (concat fp/org-directory "bib_notes.org")
+             org-ref-default-bibliography '((concat fp/org-directory "references.bib")))
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -388,11 +389,14 @@ before packages are loaded."
 
   ;; Enable doom theme's special features
   (doom-themes-org-config)
-
-  ;; Enable custom neotree theme
   (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
 
+  ;; Enable visual line mode (line wrapping)
+  (global-visual-line-mode)
 
+  (setq org-ref-note-title-format
+        "* TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :YEAR: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n\n"
+)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
